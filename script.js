@@ -2,16 +2,23 @@
 var currentDay = moment().format('MMMM Do YYYY');
 var tasks = [];
 
+
 // Create Elements
 $("#currentDay").text(currentDay);
 
 
 // Timeblocks
-for(i=9;i<=17; i++) {
-    console.log(moment.utc(i*1000*3600).format('HH:mm'));
-    tasks.push([moment.utc(i*1000*3600).format('HH:mm'),'']);
+if(localStorage.getItem("timeBlock") === null){
+    for(i=9;i<=17; i++) {
+        console.log(moment.utc(i*1000*3600).format('HH:mm'));
+        tasks.push([moment.utc(i*1000*3600).format('HH:mm'),'']);
+    }
+}
+else{
+    tasks = JSON.parse(localStorage.getItem("timeBlock"));
 }
 console.table(tasks);
+
 for(i=0;i<tasks.length;i++) {
     var row = $("<div>").addClass("row");
     row.append(
@@ -25,12 +32,11 @@ for(i=0;i<tasks.length;i++) {
 
 // Local Storage
 
-
 // Event Listener Section
 $(".saveBtn").on("click", function(){
     var index = $(this).attr("data-index");
     var contents = $('.textarea[data-index="'+index+'"]').val();
-    console.log(contents)
     tasks[index][1] = contents;
     console.table(tasks)
+    localStorage.setItem("timeBlock", JSON.stringify(tasks));
 })
