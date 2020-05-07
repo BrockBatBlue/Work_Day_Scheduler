@@ -17,12 +17,20 @@ for(i=0;i<tasks.length;i++) {
     row.append(
         $("<div>").addClass("col-1 hour").append(
             $("<p>").text(tasks[i][0])));
-    row.append($("<input>").addClass("col-10 future time-block textarea description").attr("value", tasks[i][1]));
-    row.append($("<div>").addClass("col-1 saveBtn fas fa-save"));  
+    row.append($("<input>").addClass("col-10 future time-block textarea description").attr("value", tasks[i][1]).attr("data-index", i));
+    row.append($("<div>").addClass("col-1 saveBtn fas fa-save").attr("data-index", i));  
     $(".container").append(row);
 }
 
 
 // Local Storage
 
+
 // Event Listener Section
+$(".saveBtn").on("click", function(){
+    var index = $(this).attr("data-index");
+    var contents = $('.textarea[data-index="'+index+'"]').val();
+    console.log(contents)
+    tasks[index][1] = contents;
+    console.table(tasks)
+})
