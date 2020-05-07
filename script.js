@@ -24,7 +24,18 @@ for(i=0;i<tasks.length;i++) {
     row.append(
         $("<div>").addClass("col-1 hour").append(
             $("<p>").text(tasks[i][0])));
-    row.append($("<input>").addClass("col-10 future time-block textarea description").attr("value", tasks[i][1]).attr("data-index", i));
+    var input = $("<input>").addClass("col-10 time-block textarea description").attr("value", tasks[i][1]).attr("data-index", i);
+    if(moment(tasks[i][0], "HH:mm").hours() === moment().hours()){
+        input.addClass("present");
+    }
+    else if (moment(tasks[i][0], "HH:mm").hours() > moment().hours()) {
+            input.addClass("future");
+    }
+    else {
+        input.addClass("past");
+    }
+    row.append(input);
+
     row.append($("<div>").addClass("col-1 saveBtn fas fa-save").attr("data-index", i));  
     $(".container").append(row);
 }
